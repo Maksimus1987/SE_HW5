@@ -1,3 +1,4 @@
+# Разработчик #1 @aleksrf1 aleksrf@gmail.com - тест для api
 from fastapi.testclient import TestClient
 from main import app
 
