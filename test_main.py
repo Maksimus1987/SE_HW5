@@ -4,6 +4,7 @@ from main import app
 
 client = TestClient(app)
 
+
 def test_predict():
     # Подготовка тестовых данных
     text = "Я очень удивлен происходящим!"
