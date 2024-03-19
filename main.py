@@ -1,17 +1,16 @@
-# Загрузка / настройка модели
+# Import model
 
-from fastapi import FastAPI  # импортируем класс `FastAPI` из модуля `fastapi`
+from fastapi import FastAPI  # import `FastAPI` from `fastapi`
 from transformers import (
     AutoTokenizer,
     AutoModelForSequenceClassification,
-)  # импортируем классы `AutoTokenizer` и `AutoModelForSequenceClassification`
-# из модуля `transformers`
-import torch  # импортируем модуль `torch`
+)  # import class `AutoTokenizer` и `AutoModelForSequenceClassification`
+# from `transformers`
+import torch  # import `torch`
 
-# реализация маршрута `/predict` в приложении FastAPI
+# make `/predict` in app FastAPI
 
-app = FastAPI()  # создаем экземпляр класс FastAPI
-# и присваивает его переменной `app`
+app = FastAPI()  # create object 'app' of class FastAPI
 
 model = AutoModelForSequenceClassification.from_pretrained(
     "cointegrated/rubert-tiny2-cedr-emotion-detection"
