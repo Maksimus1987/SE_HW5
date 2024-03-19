@@ -14,40 +14,41 @@ app = FastAPI()  # create object 'app' of class FastAPI
 
 model = AutoModelForSequenceClassification.from_pretrained(
     "cointegrated/rubert-tiny2-cedr-emotion-detection"
-)  # загружаем предобученную модель для классификации последовательностей
-# из пакета "cointegrated/rubert-tiny2-cedr-emotion-detection"
-# с помощью метода `from_pretrained`
-# класса `AutoModelForSequenceClassification`
-# и присваивает ее переменной `model`
+    )
+# loading model for classification sequences
+# from package "cointegrated/rubert-tiny2-cedr-emotion-detection"
+# with use method `from_pretrained`
+# class `AutoModelForSequenceClassification`
+# and assign to a variable `model`
 tokenizer = AutoTokenizer.from_pretrained(
     "cointegrated/rubert-tiny2-cedr-emotion-detection"
-)  # загружаем токенизатор для модели из того же пакета
-# с помощью метода `from_pretrained класса `AutoTokenizer`
-# и присваивает его переменной `tokenizer`
+)  # load the tokenizer for the model from the same package
+# with use `from_pretrained class `AutoTokenizer`
+# and assign to a variable `tokenizer`
 
 
 @app.post(
     "/predict"
-)  # определяем декоратор `@app.post`, который указывает, что следующая
-# функция будет обрабатывать POST-запросы на маршрут "/predict"
+)  # define a decorator `@app.post`, which indicates that the next
+# the function will process POST-requests to the route "/predict"
 def predict(
     text: str,
-):  # объявляем функцию `predict`, которая принимае
-    # один аргумент `text` типа `str`
+):  # declare a function `predict`, which accepts
+    # one argument `text` type of `str`
     inputs = tokenizer(
         text, return_tensors="pt"
-    )  # используем токенизатор `tokenizer` для токенизации текста `text`
-    # с помощью метода `tokenizer` и преобразуем его в тензор PyTorch
+    )  # use `tokenizer` for toking text `text`
+    # with use method `tokenizer` and transform it into a tensor PyTorch
     outputs = model(
         **inputs
-    )  # строка передает входной тензор `inputs` в модель `model`
-    # и получает выходной тензор `outputs`
+    )  # the string passes the input tensor `inputs` in model `model`
+    # and gets the output tensor `outputs`
     probabilities = torch.nn.functional.softmax(
         outputs.logits, dim=-1
-    )  # строка применяет функцию softmax к выходным данным модели,
-    # чтобы получить вероятности эмоций.
-    # Результат присваивается переменной `probabilities`
+    )  # line applies function "softmax" to model output,
+    # to get the probabilities of emotions.
+    # The result is assigned to a variable `probabilities`
     return (
         probabilities.tolist()
-    )  # преобразуем список вероятностей в простой список Python
-    # и возвращаем его в качестве ответа на запрос
+    )  # convert the list of probabilities into a simple list Python
+    # and return it as a response to the request
